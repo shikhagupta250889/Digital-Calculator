@@ -28,6 +28,10 @@ var calculator = {
     return a / b;
   },
 
+  exponential: function exponential(a,b) {
+    return Math.pow(a, b);
+  },
+
   execute: function execute() {
     var opIndex = this.operands.indexOf(this.operator);
     const a = Number(this.operands.slice(0,opIndex).join(''));
