@@ -9,8 +9,9 @@ var calculator = {
     exponential: '^'
   },
   operands: [],
-  operator: "",
+  currentOperator: "",
   output: '',
+  result: 0,
 
   add: function add(a, b) {
     return a + b;
@@ -33,31 +34,32 @@ var calculator = {
   },
 
   execute: function execute() {
-    var opIndex = this.operands.indexOf(this.operator);
+    var opIndex = this.operands.indexOf(this.currentOperator);
     const a = Number(this.operands.slice(0,opIndex).join(''));
     const b = Number(this.operands.slice(opIndex+1).join(''));
-    const result = this[this.operator](a, b);
-    this.output = result.toString();
-    display(this.output);
-    this.operands = [result];
+    const result = this[this.currentOperator](a, b);
+    resultDisplay(result.toString());
+    this.result = result;
+    // this.operands = [result];
+  },
+
+  equals: function equals() {
+
   },
 
   numInput: function numInput(x) {
-    this.operands.push(x);
     this.output += x.toString();
     display(this.output);
+    this.operands.push(x);
+    if(this.currentOperator) this.execute();
   },
 
   operatorInput: function operatorInput(x) {
-    this.operator = x;
-    this.operands.push(x);
     this.output += this.operators[x];
     display(this.output);
-  },
-
-  numberCount: function numberCount() {
-    if (this.numCount < 2) this.numCount++;
-    else this.numCount--;
+    this.currentOperator = x;
+    if (this.result) this.operands = [this.result.toString()];
+    this.operands.push(x);
   }
 };
 
@@ -66,5 +68,5 @@ function display(x) {
 }
 
 function resultDisplay(x) {
-  document.getElementsByClassName('result')[0].innerHTML = x;
+  document.getElementsByClassName('result')[0].innerHTML = `Answer = ${x}`;
 }
