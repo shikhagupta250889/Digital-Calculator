@@ -1,17 +1,19 @@
 var calculator = {
-  numbers: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-  operators: ["=", "+", "*", "/", "^"],
-  num: 0,
-  numCount: 0,
-  op: "",
-  displayOutput: "",
+  // numbers: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
+  // operators: ["=", "+", "*", "/", "^"],
+  operators: {
+    add: '+',
+    subtract: '-',
+    multiply: '*',
+    divide: '/',
+    exponential: '^'
+  },
+  operands: [],
+  operator: "",
+  output: '',
 
-  add: function add(a) {
-    if (this.numCount === 2) {
-      this.num+= a;
-      resultDisplay(this.num)
-    }
-    else display(this.num,op);
+  add: function add(a, b) {
+    return a + b;
   },
 
   subtract: function subtract(a,b) {
@@ -26,29 +28,35 @@ var calculator = {
     return a / b;
   },
 
-  numInput: function numInput(x) {
-    this.num = x;
-    this.numberCount()
-    display(this.num);
+  execute: function execute() {
+    const a = this.operands[0];
+    const b = this.operands[1];
+    const result = this[this.operator](a, b);
+    this.output = result.toString();
+    display(this.output);
+    this.operands = [result];
   },
 
-  opInput: function opInput(x) {
-    this.op = x;
-    display(this.op);
-    this.add()
+  numInput: function numInput(x) {
+    this.operands.push(x);
+    this.output += x.toString();
+    display(this.output);
+  },
+
+  operatorInput: function operatorInput(x) {
+    this.operator = x;
+    this.output += this.operators[x];
+    display(this.output);
   },
 
   numberCount: function numberCount() {
     if (this.numCount < 2) this.numCount++;
     else this.numCount--;
   }
-}
+};
 
 function display(x) {
-  // if (numCount <= 1) displayOutput = num + op;
-  // else
-  calculator.displayOutput = calculator.displayOutput.concat(x);
-  document.getElementsByClassName('displayscreen')[0].innerHTML = calculator.displayOutput;
+  document.getElementsByClassName('displayscreen')[0].innerHTML = x;
 }
 
 function resultDisplay(x) {

@@ -13,7 +13,7 @@
 
 
       <div class="displayscreen">0</div>
-      <div class="result"></div>
+      <!-- <br><div class="result">Answer = </div> -->
       <div class="numberblock">
         <button onclick="calculator.numInput(1)">1</button>
         <button onclick="calculator.numInput(2)">2</button>
@@ -28,12 +28,12 @@
       </div>
 
       <div class="operatorblock">
-        <button type="button" name="button" class="operators">=</button>
-        <button onclick="calculator.opInput('+')">+</button>
-        <button type="button" name="button" class="operators">-</button>
-        <button type="button" name="button" class="operators">x</button>
-        <button type="button" name="button" class="operators">/</button>
-        <button type="button" name="button" class="operators">^</button>
+        <button onclick="calculator.execute()">=</button>
+        <button onclick="calculator.operatorInput('add')">+</button>
+        <button onclick="calculator.operatorInput('subtract')">-</button>
+        <button onclick="calculator.operatorInput('multiply')">x</button>
+        <button onclick="calculator.operatorInput('divide')">/</button>
+        <button onclick="calculator.operatorInput('exponential')">^</button>
       </div>
 
 
