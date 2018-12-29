@@ -29,8 +29,9 @@ var calculator = {
   },
 
   execute: function execute() {
-    const a = this.operands[0];
-    const b = this.operands[1];
+    var opIndex = this.operands.indexOf(this.operator);
+    const a = Number(this.operands.slice(0,opIndex).join(''));
+    const b = Number(this.operands.slice(opIndex+1).join(''));
     const result = this[this.operator](a, b);
     this.output = result.toString();
     display(this.output);
@@ -45,6 +46,7 @@ var calculator = {
 
   operatorInput: function operatorInput(x) {
     this.operator = x;
+    this.operands.push(x);
     this.output += this.operators[x];
     display(this.output);
   },
