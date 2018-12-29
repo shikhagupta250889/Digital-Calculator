@@ -44,7 +44,8 @@ var calculator = {
   },
 
   equals: function equals() {
-
+    this.output = this.result.toString();
+    display(this.output);
   },
 
   numInput: function numInput(x) {
