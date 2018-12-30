@@ -12,12 +12,33 @@ var calculator = {
   result: false,
 
   init: function () {
-    const numberButtons = document.querySelectorAll('.numberblock')[0];
+    const mainBoundary = document.querySelector('.mainboundary');
+    // Access the numberblock node and create number button elements inside it as children
+    const numberBlock = document.createElement('div');
+    mainBoundary.appendChild(numberBlock);
+    // numberBlock.classname = '.numberBlock';
     for (let i = 0; i < 10; i++) {
       let buttonNode = document.createElement('button');
       buttonNode.innerText = i;
       buttonNode.onclick = () => this.numInput(buttonNode.innerHTML);
-      numberButtons.appendChild(buttonNode);
+      numberBlock.appendChild(buttonNode);
+    }
+    // Access the operatorblock node
+    const operatorBlock = document.createElement('div');
+    mainBoundary.appendChild(operatorBlock);
+
+    // document.querySelector('.operatorblock');
+    // Appending '=' button in operator block
+    let buttonNode = document.createElement('button');
+    buttonNode.innerText = '=';
+    buttonNode.onclick = this.equals.bind(this);
+    operatorBlock.appendChild(buttonNode);
+    //Create operator button elements inside operator block
+    for (let key in this.operators) {
+      let buttonNode = document.createElement('button');
+      buttonNode.innerText = this.operators[key];
+      buttonNode.onclick = () => this.operatorInput(key);
+      operatorBlock.appendChild(buttonNode);
     }
   },
 
