@@ -1,6 +1,4 @@
 var calculator = {
-  // numbers: [0, 1, 2, 3, 4, 5, 6, 7, 8, 9],
-  // operators: ["=", "+", "*", "/", "^"],
   operators: {
     add: '+',
     subtract: '-',
@@ -10,8 +8,8 @@ var calculator = {
   },
   operands: [],
   currentOperator: "",
-  output: '',
-  result: 0,
+  inputExpression: '', // Will be used only for displaying
+  result: false,
 
   add: function add(a, b) {
     return a + b;
@@ -40,26 +38,25 @@ var calculator = {
     const result = this[this.currentOperator](a, b);
     resultDisplay(result.toString());
     this.result = result;
-    // this.operands = [result];
   },
 
   equals: function equals() {
-    this.output = this.result.toString();
-    display(this.output);
+    this.inputExpression = Number(this.result).toString();
+    display(this.inputExpression);
   },
 
   numInput: function numInput(x) {
-    this.output += x.toString();
-    display(this.output);
+    this.inputExpression += x.toString();
+    display(this.inputExpression);
     this.operands.push(x);
     if(this.currentOperator) this.execute();
   },
 
   operatorInput: function operatorInput(x) {
-    this.output += this.operators[x];
-    display(this.output);
+    this.inputExpression += this.operators[x];
+    display(this.inputExpression);
     this.currentOperator = x;
-    if (this.result) this.operands = [this.result.toString()];
+    if (this.result !== false) this.operands = [this.result.toString()];
     this.operands.push(x);
   }
 };
