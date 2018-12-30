@@ -36,35 +36,35 @@ var calculator = {
     const a = Number(this.operands.slice(0,opIndex).join(''));
     const b = Number(this.operands.slice(opIndex+1).join(''));
     const result = this[this.currentOperator](a, b);
-    resultDisplay(result.toString());
+    displayResult(result.toString());
     this.result = result;
   },
 
   equals: function equals() {
     this.inputExpression = Number(this.result).toString();
-    display(this.inputExpression);
+    displayExpression(this.inputExpression);
   },
 
   numInput: function numInput(x) {
     this.inputExpression += x.toString();
-    display(this.inputExpression);
+    displayExpression(this.inputExpression);
     this.operands.push(x);
     if(this.currentOperator) this.execute();
   },
 
   operatorInput: function operatorInput(x) {
     this.inputExpression += this.operators[x];
-    display(this.inputExpression);
+    displayExpression(this.inputExpression);
     this.currentOperator = x;
     if (this.result !== false) this.operands = [this.result.toString()];
     this.operands.push(x);
   }
 };
 
-function display(x) {
+function displayExpression(x) {
   document.getElementsByClassName('displayscreen')[0].innerHTML = x;
 }
 
-function resultDisplay(x) {
+function displayResult(x) {
   document.getElementsByClassName('result')[0].innerHTML = `Answer = ${x}`;
 }
