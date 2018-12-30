@@ -12,18 +12,22 @@ var calculator = {
   result: false,
 
   init: function () {
+    // Access the mainboundary Node
     const mainBoundary = document.querySelector('.mainboundary');
-    // Access the numberblock node and create number button elements inside it as children
+
+    // Create the numberblock node and append it to main boundary node
     const numberBlock = document.createElement('div');
     mainBoundary.appendChild(numberBlock);
-    // numberBlock.classname = '.numberBlock';
+
+    // create number button elements inside numberBlock as children
     for (let i = 0; i < 10; i++) {
       let buttonNode = document.createElement('button');
       buttonNode.innerText = i;
       buttonNode.onclick = () => this.numInput(buttonNode.innerHTML);
       numberBlock.appendChild(buttonNode);
     }
-    // Access the operatorblock node
+
+    // Create the operatorblock node and append it to main boundary node
     const operatorBlock = document.createElement('div');
     mainBoundary.appendChild(operatorBlock);
 
@@ -33,7 +37,8 @@ var calculator = {
     buttonNode.innerText = '=';
     buttonNode.onclick = this.equals.bind(this);
     operatorBlock.appendChild(buttonNode);
-    //Create operator button elements inside operator block
+
+    //Create operator button elements inside operator block as children
     for (let key in this.operators) {
       let buttonNode = document.createElement('button');
       buttonNode.innerText = this.operators[key];
