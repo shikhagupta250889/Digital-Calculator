@@ -11,6 +11,16 @@ var calculator = {
   inputExpression: '', // Will be used only for displaying
   result: false,
 
+  init: function () {
+    const numberButtons = document.querySelectorAll('.numberblock')[0];
+    for (let i = 0; i < 10; i++) {
+      let buttonNode = document.createElement('button');
+      buttonNode.innerText = i;
+      buttonNode.onclick = () => this.numInput(buttonNode.innerHTML);
+      numberButtons.appendChild(buttonNode);
+    }
+  },
+
   add: function add(a, b) {
     return a + b;
   },
@@ -33,8 +43,8 @@ var calculator = {
 
   execute: function execute() {
     var opIndex = this.operands.indexOf(this.currentOperator);
-    const a = Number(this.operands.slice(0,opIndex).join(''));
-    const b = Number(this.operands.slice(opIndex+1).join(''));
+    const a = Number(this.operands.slice(0, opIndex).join(''));
+    const b = Number(this.operands.slice(opIndex + 1).join(''));
     const result = this[this.currentOperator](a, b);
     displayResult(result.toString());
     this.result = result;
