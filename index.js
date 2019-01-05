@@ -105,9 +105,13 @@ var calculator = {
   equals: function equals() {
     this.inputExpression = Number(this.result).toString();
     this.displayExpression(this.inputExpression);
+    this.currentOperator = "";
+    this.operands = [this.result.toString()];
+    this.result = false;
   },
 
   numInput: function numInput(x) {
+    if (this.inputExpression == "0") this.inputExpression = "";
     this.inputExpression += x.toString();
     this.displayExpression(this.inputExpression);
     this.operands.push(x);
