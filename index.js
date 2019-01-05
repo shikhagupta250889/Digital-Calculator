@@ -52,6 +52,12 @@ var calculator = {
       numberBlock.appendChild(buttonNode);
     }
 
+    //Appending decimal button in number block
+    let decimalButtonNode = document.createElement('button');
+    decimalButtonNode.innerText = '.';
+    decimalButtonNode.onclick = () => this.numInput(decimalButtonNode.innerHTML);
+    numberBlock.appendChild(decimalButtonNode);
+
     // Create the operatorblock node and append it to main boundary node
     const operatorBlock = document.createElement('div');
     operatorBlock.className = 'operator-block';
@@ -71,6 +77,7 @@ var calculator = {
     resetButtonNode.onclick = this.reset.bind(this);
     operatorBlock.appendChild(resetButtonNode);
 
+
     //Create operator button elements inside operator block as children
     for (let key in this.operators) {
       let buttonNode = document.createElement('button');
@@ -84,19 +91,19 @@ var calculator = {
     return a + b;
   },
 
-  subtract: function subtract(a,b) {
+  subtract: function subtract(a, b) {
     return a - b;
   },
 
-  multiply: function multiply(a,b) {
+  multiply: function multiply(a, b) {
     return a * b;
   },
 
-  divide: function divide(a,b) {
+  divide: function divide(a, b) {
     return a / b;
   },
 
-  exponential: function exponential(a,b) {
+  exponential: function exponential(a, b) {
     return Math.pow(a, b);
   },
 
@@ -156,7 +163,7 @@ var calculator = {
   },
 
   displayExpression: function displayExpression(x) {
-    x += /\d+[\+\*-\^\/]\d+$/g.test(x) ? ' = ': '';
+    x += /\d+[\+\*-\^\/\.]\d+$/g.test(x) ? ' = ': '';
     this.displayScreen.innerHTML = x;
   },
 
