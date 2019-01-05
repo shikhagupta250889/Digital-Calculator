@@ -11,13 +11,38 @@ var calculator = {
   inputExpression: '', // Will be used only for displaying
   result: false,
 
-  init: function () {
-    // Access the mainboundary Node
-    const mainBoundary = document.querySelector('.mainboundary');
+  init: function (calculatorContainer) {
+    // Create the below two commented nodes inside mainBoundary in javascript below.
+    // <div class="dc-displayscreen">0</div>
+    // <div class="dc-result"></div>
+    const mainBoundary = document.createElement('div');
+    mainBoundary.className = 'main-boundary';
+    calculatorContainer.appendChild(mainBoundary);
+
+    const outputContainer = document.createElement('div');
+    outputContainer.className = 'output-container';
+    mainBoundary.appendChild(outputContainer);
+
+    const inputContainer = document.createElement('div');
+    inputContainer.className = 'input-container';
+    mainBoundary.appendChild(inputContainer);
+
+    const displayScreen = document.createElement('div');
+    displayScreen.className = 'dc-displayscreen';
+    displayScreen.innerHTML = '&nbsp;';
+    outputContainer.appendChild(displayScreen);
+    this.displayScreen = displayScreen;
+
+    const result = document.createElement('div');
+    result.className = 'dc-result';
+    result.innerText = '0';
+    outputContainer.appendChild(result);
+    this.resultNode = result;
 
     // Create the numberblock node and append it to main boundary node
     const numberBlock = document.createElement('div');
-    mainBoundary.appendChild(numberBlock);
+    numberBlock.className = 'number-block';
+    inputContainer.appendChild(numberBlock);
 
     // create number button elements inside numberBlock as children
     for (let i = 0; i < 10; i++) {
@@ -29,7 +54,8 @@ var calculator = {
 
     // Create the operatorblock node and append it to main boundary node
     const operatorBlock = document.createElement('div');
-    mainBoundary.appendChild(operatorBlock);
+    operatorBlock.className = 'operator-block';
+    inputContainer.appendChild(operatorBlock);
 
     // document.querySelector('.operatorblock');
     // Appending '=' button in operator block
@@ -72,35 +98,36 @@ var calculator = {
     const a = Number(this.operands.slice(0, opIndex).join(''));
     const b = Number(this.operands.slice(opIndex + 1).join(''));
     const result = this[this.currentOperator](a, b);
-    displayResult(result.toString());
+    this.displayResult(result.toString());
     this.result = result;
   },
 
   equals: function equals() {
     this.inputExpression = Number(this.result).toString();
-    displayExpression(this.inputExpression);
+    this.displayExpression(this.inputExpression);
   },
 
   numInput: function numInput(x) {
     this.inputExpression += x.toString();
-    displayExpression(this.inputExpression);
+    this.displayExpression(this.inputExpression);
     this.operands.push(x);
     if(this.currentOperator) this.execute();
   },
 
   operatorInput: function operatorInput(x) {
     this.inputExpression += this.operators[x];
-    displayExpression(this.inputExpression);
+    this.displayExpression(this.inputExpression);
     this.currentOperator = x;
     if (this.result !== false) this.operands = [this.result.toString()];
     this.operands.push(x);
+  },
+
+  displayExpression: function displayExpression(x) {
+    x += /\d+[\+\*-\^\/]\d+$/g.test(x) ? ' = ': '';
+    this.displayScreen.innerHTML = x;
+  },
+
+  displayResult: function displayResult(x) {
+    this.resultNode.innerHTML = x;
   }
 };
-
-function displayExpression(x) {
-  document.getElementsByClassName('displayscreen')[0].innerHTML = x;
-}
-
-function displayResult(x) {
-  document.getElementsByClassName('result')[0].innerHTML = `Answer = ${x}`;
-}

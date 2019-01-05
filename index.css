@@ -4,24 +4,68 @@ h1  {
   font-weight: bold;
 }
 
-.mainboundary {
+.main-boundary {
   display: flex;
-}
-
-.numberblock {
-  display: flex;
+  border: 1px solid #ccc;
+  flex-direction: column;
 }
 
 .operaterblock {
   display: flex;
 }
 
-.displayscreen {
-  display: flex;
-  height: 100%;
-  width: 100%;
+.dc-displayscreen, .dc-result {
+  font-weight: bold;
+  border-bottom: 1px solid #ccc;
+  padding: 5px;
 }
 
-.result {
+.dc-result {
+  border-bottom: 0;
+  text-align: right;
+  font-size: 25px;
+}
+
+.output-container {
+    margin: 4% 4% 0 4%;
+    border: 2px solid;
+    padding: 4%;
+}
+
+.input-container {
   display: flex;
+  margin: 10% 4% 4% 4%;
+}
+
+.number-block {
+  flex: 14;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.number-block button {
+  padding: 5px 10px;
+  margin-right: 15px;
+  margin-bottom: 6px;
+  font-weight: bold;
+}
+
+.operator-block {
+  flex: 10;
+  padding-left: 4%;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+}
+
+.operator-block button {
+  padding: 5px 10px;
+  margin-right: 15px;
+  margin-bottom: 6px;
+  font-weight: bold;
+  width: 10px;
+  height: 25px;
+  border: 1px;
+  box-sizing: content-box;
 }
