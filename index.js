@@ -1,16 +1,18 @@
 var calculator = {
-  operators: {
-    add: '+',
-    subtract: '-',
-    multiply: '*',
-    divide: '/',
-    exponential: '^'
+  defaultValues: {
+    operands: [],
+    currentOperator: "",
+    inputExpression: '&nbsp;', // Will be used only for displaying
+    result: false,
   },
-  operands: [],
-  currentOperator: "",
-  inputExpression: '', // Will be used only for displaying
-  result: false,
-
+  whiteListConsecutiveOperators: ['+', '-'],
+  operators: {
+    '+': (a, b) => a + b,
+    '-': (a, b) => a - b,
+    '*': (a, b) => a * b,
+    '/': (a, b) => a / b,
+    '^': (a, b) => Math.pow(a, b),
+  },
   init: function (calculatorContainer) {
     // Create the below two commented nodes inside mainBoundary in javascript below.
     // <div class="dc-displayscreen">0</div>
@@ -29,15 +31,15 @@ var calculator = {
 
     const displayScreen = document.createElement('div');
     displayScreen.className = 'dc-displayscreen';
-    displayScreen.innerHTML = '&nbsp;';
     outputContainer.appendChild(displayScreen);
     this.displayScreen = displayScreen;
 
     const result = document.createElement('div');
     result.className = 'dc-result';
-    result.innerText = '0';
     outputContainer.appendChild(result);
     this.resultNode = result;
+
+    this.reset();
 
     // Create the numberblock node and append it to main boundary node
     const numberBlock = document.createElement('div');
@@ -72,7 +74,7 @@ var calculator = {
 
     //Appending reset button in operator block
     let resetButtonNode = document.createElement('button');
-    resetButtonNode.innerText = 'AC';
+    resetButtonNode.innerText = 'AC ';
     resetButtonNode.className = "Reset";
     resetButtonNode.onclick = this.reset.bind(this);
     operatorBlock.appendChild(resetButtonNode);
@@ -81,43 +83,22 @@ var calculator = {
     //Create operator button elements inside operator block as children
     for (let key in this.operators) {
       let buttonNode = document.createElement('button');
-      buttonNode.innerText = this.operators[key];
+      buttonNode.innerText = key;
       buttonNode.onclick = () => this.operatorInput(key);
       operatorBlock.appendChild(buttonNode);
     }
   },
 
-  add: function add(a, b) {
-    return a + b;
-  },
-
-  subtract: function subtract(a, b) {
-    return a - b;
-  },
-
-  multiply: function multiply(a, b) {
-    return a * b;
-  },
-
-  divide: function divide(a, b) {
-    return a / b;
-  },
-
-  exponential: function exponential(a, b) {
-    return Math.pow(a, b);
-  },
-
   execute: function execute() {
-    var opIndex = this.operands.indexOf(this.operators[this.currentOperator]);
+    var opIndex = this.operands.indexOf(this.currentOperator);
     const a = Number(this.operands.slice(0, opIndex).join(''));
     const b = Number(this.operands.slice(opIndex + 1).join(''));
     if (isNaN(a) || isNaN(b)) {
       this.reset();
       this.displayResult("Invalid Input");
-      this.inputExpression = "";
       this.displayExpression(this.inputExpression);
     }
-    const result = this[this.currentOperator](a, b);
+    const result = this.operators[this.currentOperator](a, b);
     this.displayResult(result.toString());
     this.result = result;
   },
@@ -125,18 +106,19 @@ var calculator = {
   equals: function equals() {
     this.inputExpression = Number(this.result).toString();
     this.displayExpression(this.inputExpression);
-    this.currentOperator = "";
+    this.currentOperator = this.defaultValues.currentOperator;
     this.operands = [this.result.toString()];
     this.result = false;
   },
 
   reset: function reset() {
-    this.operands = [];
-    this.currentOperator = "";
-    this.inputExpression = '';
-    this.result = false;
+    Object.assign(this, this.objectCopy(this.defaultValues));
     this.displayExpression(this.inputExpression);
     this.displayResult("0");
+  },
+
+  objectCopy: (obj) => {
+    return JSON.parse(JSON.stringify(obj));
   },
 
   numInput: function numInput(x) {
@@ -148,12 +130,12 @@ var calculator = {
   },
 
   operatorInput: function operatorInput(x) {
-    this.inputExpression += this.operators[x];
+    this.inputExpression += x;
     this.displayExpression(this.inputExpression);
     this.checkLastInput(x);
     // this.currentOperator = x;
     if (this.result !== false) this.operands = [this.result.toString()];
-    this.operands.push(this.operators[x]);
+    this.operands.push(x);
   },
 
   checkLastInput: function checkLastInput(x) {
